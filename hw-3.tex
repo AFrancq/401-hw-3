@@ -81,11 +81,19 @@
     \begin{question}{test}
         \begin{part}
             \[
-            OPT[i,j] = \begin{cases}
-                min(1 + OPT(i - 1, j), 1 + OPT(i, j - 1), OPT(i - 1, j - 1)) & x_i = y_i       \\
-                min(1 + OPT(i - 1, j), 1 + OPT(i, j - 1), 1 + OPT(i - 1, j - 1))  & x_i \neq y_i  \\
-                j  & \text{if } i = 0                            \\
-                i  & \text{if } j = 0    
+            OPT(i,j) = \begin{cases}
+                min(2 + OPT_*(i - 1, j), 3 + OPT(i, j - 1), OPT(i - 1, j - 1)), & x_i = y_i       \\
+                min(2 + OPT_*(i - 1, j), 3 + OPT(i, j - 1), 4 + OPT(i - 1, j - 1)),  & x_i \neq y_i  \\
+                j,  & \text{if } i = 0                            \\
+                i,  & \text{if } j = 0    
+            \end{cases}
+            \]
+            \[
+            OPT_*(i,j) = \begin{cases}
+                min(3 + OPT(i - 1, j), 3 + OPT(i, j - 1), OPT(i - 1, j - 1)), & x_i = y_i       \\
+                min(3 + OPT(i - 1, j), 3 + OPT(i, j - 1), 4 + OPT(i - 1, j - 1)),  & x_i \neq y_i  \\
+                j,  & \text{if } i = 0                            \\
+                i,  & \text{if } j = 0    
             \end{cases}
             \]
         \end{part}
