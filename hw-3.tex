@@ -90,8 +90,8 @@
             \]
             \[
             OPT_*(i,j) = \begin{cases}
-                min(3 + OPT(i - 1, j), 3 + OPT(i, j - 1), OPT(i - 1, j - 1)), & x_i = y_i       \\
-                min(3 + OPT(i - 1, j), 3 + OPT(i, j - 1), 4 + OPT(i - 1, j - 1)),  & x_i \neq y_i  \\
+                min(1 + OPT(i - 1, j), 3 + OPT(i, j - 1), OPT(i - 1, j - 1)), & x_i = y_i       \\
+                min(1 + OPT(i - 1, j), 3 + OPT(i, j - 1), 4 + OPT(i - 1, j - 1)),  & x_i \neq y_i  \\
                 j,  & \text{if } i = 0                            \\
                 i,  & \text{if } j = 0    
             \end{cases}
@@ -116,14 +116,88 @@
         \end{part}        
     \end{question}
     \begin{question}{greedy}
-        \textbf{2.} Batch sizes: $S = [1, 3, 4]$ \\
-        \hspace*{4.2em} Cookies: $n = 6$
+        \begin{part}
+            Batch sizes: $S = [1, 3, 4]$ \\
+            Cookies: $n = 6$
 
-        \begin{itemize}
-            \item Greedy would give the largest batch first, making the next batches two 1's, so it would be $4 + 1 + 1 = 6$, or 3 boxes.
-            \item Better: get two batches of 3, $3 + 3 = 6$, or 2 boxes.
-            \item Greedy fails because it takes the max value, leaving a remainder that can only be filled by ones.
-        \end{itemize}
+            \begin{itemize}
+                \item Greedy would give the largest batch first, making the next batches two 1's, so it would be $4 + 1 + 1 = 6$, or 3 boxes.
+                \item Better: get two batches of 3, $3 + 3 = 6$, or 2 boxes.
+                \item Greedy fails because it takes the max value, leaving a remainder that can only be filled by ones.
+            \end{itemize}
+        \end{part}
+        \begin{part}
+            \[
+            \mathit{cook}(S[\,], i, n) = \begin{cases}
+                \min\big(1 + \mathit{cook}(S[\,], i, n - S[i]),\ \mathit{cook}(S[\,], i - 1, n)\big), & S[i] \le n \land i \neq 1 \\
+                \mathit{cook}(S[\,], i - 1, n), & S[i] > n \land n \neq 0 \\
+                n, & n = 0 \lor i = 1
+            \end{cases}
+            \]
+        \end{part}
+        \begin{part}
+            For the parameters, $S[\,]$ is the ordered list of batch sizes, $i$ is the current batch size, expecting to start at the end of $S[\,]$, and $n$ is the number of cookies requested. We expect $n$ to be greater than or equal to zero. If the current batch size is less than $n$, we return the minimum number of boxes between continuing with the current size (incrementing the total by one) and the next size down. If the current batch size is greater than $n$, we call the next size down. Finally, our base case is $n = 0$ or $i = 1$, where we return $n$ to end the recurrence.
+        \end{part}
+        \begin{part}
+            $S = [1, 3, 4]$, $n = 6$
+        \end{part}
+        \begin{part}
+            A $\text{length}(S) \times n$ matrix, with the rows as the batch sizes in $S$ in increasing order.
+        \end{part}
+        \begin{part}
+            First, fill row 1 from $0..n$. Then for each row up to the length of $S$, use the following procedure from $0..n$: If the batch size is greater than the current column, store the value of the row above in the same column. If the batch size is less than the current column, store one + the value in the same row at the current column minus the batch size's column.
+
+            \begin{center}
+                \begin{tabular}{|c|c|c|c|c|c|c|c|}
+                    \hline
+                      & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
+                    1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
+                    3 & 0 & 1 & 2 & 1 & 2 & 3 & 2 \\ \hline
+                    4 & 0 & 1 & 2 & 1 & 1 & 2 & 3 \\ \hline
+                \end{tabular}
+            \end{center}
+        \end{part}
+        \begin{part}
+            $\Theta(nb)$
+        \end{part}
+    \end{question}
+    \begin{question}{School Satisfaction}
+        \begin{part}
+            Our recurrences are maximizing the value of Miya going to class or not going to class, with $S[\,]$ being the satisfaction list and $i$ being the current class being evaluated. We have 4 recurrences to keep track of consecutive weeks skipped, with penalties applied accordingly.
+        \end{part}
+        \begin{part}
+            \[
+            ms_1(S[\,], i) = \begin{cases}
+                \max\big(S[i] + ms_1(S[\,], i + 1),\ ms_2(S[\,], i + 1)\big), & i \le \text{length}(S) \\
+                0, & i > \text{length}(S)
+            \end{cases}
+            \]
+            \[
+            ms_2(S[\,], i) = \begin{cases}
+                \max\big(S[i] + ms_1(S[\,], i + 1),\ ms_3(S[\,], i + 1)\big), & i \le \text{length}(S) \\
+                0, & i > \text{length}(S)
+            \end{cases}
+            \]
+            \[
+            ms_3(S[\,], i) = \begin{cases}
+                \max\big(S[i] + ms_1(S[\,], i + 1) - 20,\ ms_4(S[\,], i + 1)\big), & i \le \text{length}(S) \\
+                -20, & i > \text{length}(S)
+            \end{cases}
+            \]
+            \[
+            ms_4(S[\,], i) = \begin{cases}
+                S[i] + ms_1(S[\,], i + 1) - 20, & i \le \text{length}(S) \\
+                -20, & i > \text{length}(S)
+            \end{cases}
+            \]
+        \end{part}
+        \begin{part}
+            Each recurrence has two cases, where $i > \text{length}(S)$ and where $i < \text{length}(S)$. Since $i$ is the current course and the index starts at 1, if $i$ is less than the length, courses still need to be evaluated. If $i$ is greater, then we are done evaluating. Then, we have 4 recurrences to represent Miya's number of consecutive classes and the associated penalties.
+        \end{part}
+        \begin{part}
+            A $4 \times \text{length}(S)$ matrix.
+            % TODO: memoization structure not finished -- table sketch (rows 1-4, columns 1..length(S)) still to fill in
+        \end{part}
     \end{question}
     \vfill 
     \begin{minipage}{\textwidth}
