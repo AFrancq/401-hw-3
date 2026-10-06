@@ -163,31 +163,31 @@
     \end{question}
     \begin{question}{School Satisfaction}
         \begin{part}
-            Our recurrences are maximizing the value of Miya going to class or not going to class, with $S[\,]$ being the satisfaction list and $i$ being the current class being evaluated. We have 4 recurrences to keep track of consecutive weeks skipped, with penalties applied accordingly.
+            Our recurrences are maximizing the value of Miya going to class or not going to class, with $S[\,]$ being the satisfaction list and $i$ being the current class being evaluated. We have 4 recurrences to keep track of consecutive weeks skipped, with penalties applied accordingly. We assume $|S| > 0$.
         \end{part}
         \begin{part}
             \[
-            ms_1(S[\,], i) = \begin{cases}
-                \max\big(S[i] + ms_1(S[\,], i + 1),\ ms_2(S[\,], i + 1)\big), & i \le \text{length}(S) \\
-                0, & i > \text{length}(S)
+            ms_1(S[\,]) = \begin{cases}
+                \max\big(S[1] + ms_1(S[2:]),\ ms_2(S[2:])\big), &  \text{length}(S) \geq 2 \\
+                \max\big(S[1], 0), & \text{length}(S) = 1
             \end{cases}
             \]
             \[
-            ms_2(S[\,], i) = \begin{cases}
-                \max\big(S[i] + ms_1(S[\,], i + 1),\ ms_3(S[\,], i + 1)\big), & i \le \text{length}(S) \\
-                0, & i > \text{length}(S)
+            ms_2(S[\,]) = \begin{cases}
+                \max\big(S[1] + ms_1(S[2:]),\ ms_3S[2:] - 20)\big), &  \text{length}(S) \geq 2 \\
+                \max\big(S[1], -20), & \text{length}(S) = 1 
             \end{cases}
             \]
             \[
-            ms_3(S[\,], i) = \begin{cases}
-                \max\big(S[i] + ms_1(S[\,], i + 1) - 20,\ ms_4(S[\,], i + 1)\big), & i \le \text{length}(S) \\
-                -20, & i > \text{length}(S)
+            ms_3(S[\,]) = \begin{cases}
+                \max\big(S[1] + ms_1(S[2:]),\ ms_4(S[2:])\big), & \text{length}(S) \geq 2 \\
+                \max\big(S[1], 0), & \text{length}(S) = 1
             \end{cases}
             \]
             \[
-            ms_4(S[\,], i) = \begin{cases}
-                S[i] + ms_1(S[\,], i + 1) - 20, & i \le \text{length}(S) \\
-                -20, & i > \text{length}(S)
+            ms_4(S[\,]) = \begin{cases}
+                S[1] + ms_1(S[2:]), &  \text{length}(S) \geq 2 \\
+                S[1], & \text{length}(S) = 1
             \end{cases}
             \]
         \end{part}
