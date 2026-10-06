@@ -33,16 +33,6 @@ def min_length(n):
     # every number can be formed by adding 1 to the previous optimal expression
     min_cost = min_ones_table[curr_val-1] + min_ones_table[1]
 
-    # Addition: (part1 + part2 = curr_val)
-    # checking all possible points up to half of curr_val to avoid repetitive parts (e.g. 2+4 and 4+2)
-    # // is floor integer division that rounds down and gets rid of remainders, making sure result is a whole integer for list indexing
-    for part1 in range(1, (curr_val // 2) +1):
-      part2 = curr_val - part1
-      cost_by_addition = min_ones_table[part1] + min_ones_table[part2]
-
-      if cost_by_addition < min_cost:
-        min_cost = cost_by_addition
-
     # Multiplication (factor1 * factor2 = curr_val)
     # iterating the divisors up to the square root(**0.5) of curr_val because factor pairs mirror across the square root 
     max_divisor = int(curr_val**0.5)
@@ -124,4 +114,4 @@ if __name__ == "__main__":
   print("Expected: 7\n")
 
   # ===================
-  # Time Complexity: The outer loop runs n times. The inner multiplication loop runs up to sqrt{curr_val} times per iteration, yielding an overall complexity of O(nsqrt{n}) 
+  # Time Complexity: The outer loop runs n times. The inner multiplication loop runs up to sqrt(curr_val) times per iteration, yielding an overall complexity of O(nsqrt{n}) 
