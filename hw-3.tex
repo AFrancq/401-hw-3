@@ -218,14 +218,18 @@
             A $4 \times \text{length}(S)$ matrix. With the columns representing each element in $S[]$ and the rows representing each $ms_n$ where $n \in {1, 2, 3, 4}$
         \end{part}
         \begin{part}
-            Each row of the matrix represents a different level of recurrence. First, we the last column with the base case from $ms_1$ to $ms_4$ respectively.
+            Each row of the matrix represents a different level of recurrence. First, we fill the last column with the base case from $ms_1$ to $ms_4$ respectively.
             Then, for each column from right to left, we apply to $\text{length}\geq 2$ case for the recurrence each row represents. Each evaluation happens in the previously evaluated column.
             \begin{enumerate}
-                \item row 1: We take the max between the current column label plus the value in row 1 versus the value in row 2
-                \item row 2: We take the max between the current column label plus the value in row 1 versus the value in row 3 - 20
-                \item row 3: We take the max between the current column label plus the value in row 1 versus the value in row 4
-                \item row 4: We take the value of the current column label plus the value in row 1
+                \item row 1: We take the max between the current column label plus the value in row $1$ versus the value in row $2$
+                \item row 2: We take the max between the current column label plus the value in row $1$ versus the value in row $3 - 20$
+                \item row 3: We take the max between the current column label plus the value in row $1$ versus the value in row $4$
+                \item row 4: We take the value of the current column label plus the value in row $1$
             \end{enumerate}
+            The runtime takes $O(n)$ because the number of rows is constant and each evaluation happens $n$ times.
+        \end{part}
+        \begin{part}
+            We can then find the answer at the top left of the memoization structure.
         \end{part}
     \end{question}
     \vfill 
