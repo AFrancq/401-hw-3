@@ -153,17 +153,6 @@
             or skipping it (the value in the row above in the same column).
             Each cell depends on the cell above and to its left.
             The solution is the bottom right cell.
-            
-         
-            \begin{center}
-                \begin{tabular}{|c|c|c|c|c|c|c|c|}
-                    \hline
-                      & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
-                    1 & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
-                    3 & 0 & 1 & 2 & 1 & 2 & 3 & 2 \\ \hline
-                    4 & 0 & 1 & 2 & 1 & 1 & 2 & 2 \\ \hline
-                \end{tabular}
-            \end{center}
         \end{part}
         \begin{part}
             $\Theta(nb)$
@@ -171,7 +160,7 @@
     \end{question}
     \begin{question}{School Satisfaction}
         \begin{part}
-            Our recurrences are maximizing the value of Miya going to class or not going to class, with $S[\,]$ being the satisfaction list and $i$ being the current class being evaluated. We have 4 recurrences to keep track of consecutive weeks skipped, with penalties applied accordingly. We assume $|S| > 0$.
+            Our recurrences are maximizing the value of Miya going to class or not going to class, with $S[\,]$ being the satisfaction list. We have 4 recurrences to keep track of consecutive weeks skipped, with penalties applied accordingly. We assume $|S| > 0$.
         \end{part}
         \begin{part}
             \[
@@ -200,7 +189,30 @@
             \]
         \end{part}
         \begin{part}
-            Each recurrence has two cases, where $i > \text{length}(S)$ and where $i < \text{length}(S)$. Since $i$ is the current course and the index starts at 1, if $i$ is less than the length, courses still need to be evaluated. If $i$ is greater, then we are done evaluating. Then, we have 4 recurrences to represent Miya's number of consecutive classes and the associated penalties.
+            Each recurrence has two cases, where $i > \text{length}(S)$ (representing where more classes need to be taken) and where $i < \text{length}(S)$ (representing when only one class remains). 
+            \begin{enumerate}
+                \item $ms_1$ represents the case where no classes have been skipped consecutively
+                \begin{enumerate}
+                    \item case $\text{length}(S) \geq 2$: We take the max between skipping and not skipping the current class.
+                    \item case: $\text{length}(S) = 1$: We take the max between attending the current class and $0$.
+                \end{enumerate}
+                \item $ms_2$ represents the case where 1 class has been skipped
+                \begin{enumerate}
+                    \item case: $\text{length}(S) \geq 2$: We take the max between attending the current class and skipping to the again with the $-20$ penalty.
+                    \item case: $\text{length}(S) = 1$: We take the max between attending the current class and taking the $-20$ penalty for skipping more than twice.
+                \end{enumerate}
+                \item $ms_3$ represents the case where 2 classes have been skipped consecutively
+                \begin{enumerate}
+                    \item case: $\text{length}(S) \geq 2$: We take the max between attending the current class and skipping a third time with no extra penalty.
+                    \item case: $\text{length}(S) = 1$: We take the max between attending the current class and $0$. Crucially, the $-20$ penalty has already been applied, so we do not apply it again.
+                \end{enumerate}
+                \item $ms_4$ represents the case where 3 classes have been skipped consecutively
+                \begin{enumerate}
+                    \item case: $\text{length}(S) \geq 2$: Miya must attend the current class, so we take the current value plus the remaining optimal value.
+                    \item case: $\text{length}(S) = 1$: Miya must attend the current class, since the next class must be attended.
+                \end{enumerate}
+            \end{enumerate}
+            By starting with $ms_1$, we can find the optimal satisfaction value for Miya, since ever recurrence will stem from $ms_1$.
         \end{part}
         \begin{part}
             A $4 \times \text{length}(S)$ matrix.
