@@ -145,6 +145,16 @@
             A $\text{length}(S) \times (n + 1)$ matrix, with the rows as the batch sizes in $S$ in increasing order.
         \end{part}
         \begin{part}
+            First, we fill column 0 with 0s in every row (because 0 coookies need 0 boxes).
+            Fill row 1 from 0...$n$ with the value j (because only single cookies are available).
+            For each row from 2 up to length(S), we fill the columns from 1...$n$ left to right. 
+            If the batch size $>$ the current column, we store the value of the row above in the same column.
+            If the batch size $<=$ the current column, we store the minimum of $1 +$ the value in the same row at the column and the value in the row above in the same column.
+            Each cell depends on the cell above and to its left.
+            The solution is the bottom right cell.
+            
+            ----
+
             First, fill row 1 with the corresponding value from $0\ldots n$. Then, fill column 1 with $0$. Then, starting from the second row and second column (if it exists) do the following procedure:
             \begin{enumerate}
                 \item If the row value is greater than the current column value, then take the value of the row above.
