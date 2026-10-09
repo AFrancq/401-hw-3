@@ -194,29 +194,38 @@
                 \item $ms_1$ represents the case where no classes have been skipped consecutively
                 \begin{enumerate}
                     \item case $\text{length}(S) \geq 2$: We take the max between skipping and not skipping the current class.
-                    \item case: $\text{length}(S) = 1$: We take the max between attending the current class and $0$.
+                    \item case $\text{length}(S) = 1$: We take the max between attending the current class and $0$.
                 \end{enumerate}
                 \item $ms_2$ represents the case where 1 class has been skipped
                 \begin{enumerate}
-                    \item case: $\text{length}(S) \geq 2$: We take the max between attending the current class and skipping to the again with the $-20$ penalty.
-                    \item case: $\text{length}(S) = 1$: We take the max between attending the current class and taking the $-20$ penalty for skipping more than twice.
+                    \item case $\text{length}(S) \geq 2$: We take the max between attending the current class and skipping to the again with the $-20$ penalty.
+                    \item case $\text{length}(S) = 1$: We take the max between attending the current class and taking the $-20$ penalty for skipping more than twice.
                 \end{enumerate}
                 \item $ms_3$ represents the case where 2 classes have been skipped consecutively
                 \begin{enumerate}
-                    \item case: $\text{length}(S) \geq 2$: We take the max between attending the current class and skipping a third time with no extra penalty.
-                    \item case: $\text{length}(S) = 1$: We take the max between attending the current class and $0$. Crucially, the $-20$ penalty has already been applied, so we do not apply it again.
+                    \item case $\text{length}(S) \geq 2$: We take the max between attending the current class and skipping a third time with no extra penalty.
+                    \item case $\text{length}(S) = 1$: We take the max between attending the current class and $0$. Crucially, the $-20$ penalty has already been applied, so we do not apply it again.
                 \end{enumerate}
                 \item $ms_4$ represents the case where 3 classes have been skipped consecutively
                 \begin{enumerate}
-                    \item case: $\text{length}(S) \geq 2$: Miya must attend the current class, so we take the current value plus the remaining optimal value.
-                    \item case: $\text{length}(S) = 1$: Miya must attend the current class, since the next class must be attended.
+                    \item case $\text{length}(S) \geq 2$: Miya must attend the current class, so we take the current value plus the remaining optimal value.
+                    \item case $\text{length}(S) = 1$: Miya must attend the current class, since the next class must be attended.
                 \end{enumerate}
             \end{enumerate}
             By starting with $ms_1$, we can find the optimal satisfaction value for Miya, since every recurrence will stem from $ms_1$.
         \end{part}
         \begin{part}
-            A $4 \times \text{length}(S)$ matrix.
-            % TODO: memoization structure not finished -- table sketch (rows 1-4, columns 1..length(S)) still to fill in
+            A $4 \times \text{length}(S)$ matrix. With the columns representing each element in $S[]$ and the rows representing each $ms_n$ where $n \in {1, 2, 3, 4}$
+        \end{part}
+        \begin{part}
+            Each row of the matrix represents a different level of recurrence. First, we the last column with the base case from $ms_1$ to $ms_4$ respectively.
+            Then, for each column from right to left, we apply to $\text{length}\geq 2$ case for the recurrence each row represents. Each evaluation happens in the previously evaluated column.
+            \begin{enumerate}
+                \item row 1: We take the max between the current column label plus the value in row 1 versus the value in row 2
+                \item row 2: We take the max between the current column label plus the value in row 1 versus the value in row 3 - 20
+                \item row 3: We take the max between the current column label plus the value in row 1 versus the value in row 4
+                \item row 4: We take the value of the current column label plus the value in row 1
+            \end{enumerate}
         \end{part}
     \end{question}
     \vfill 
