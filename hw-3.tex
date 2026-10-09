@@ -154,13 +154,7 @@
             Each cell depends on the cell above and to its left.
             The solution is the bottom right cell.
             
-            ----
-
-            First, fill row 1 with the corresponding value from $0\ldots n$. Then, fill column 1 with $0$. Then, starting from the second row and second column (if it exists) do the following procedure:
-            \begin{enumerate}
-                \item If the row value is greater than the current column value, then take the value of the row above.
-                \item Otherwise, take the minimum between $1 + A[row][S[i] - row]$ and $A[row - 1][column]$
-            \end{enumerate}
+         
             \begin{center}
                 \begin{tabular}{|c|c|c|c|c|c|c|c|}
                     \hline
